@@ -27,9 +27,15 @@ module.exports = function (grunt) {
 		if (options.logConcurrentOutput) {
 			spawnOptions = { stdio: 'inherit' };
 		}
-
 		padStdio.stdout('    ');
 		async.eachLimit(tasks, options.limit, function (task, next) {
+			// Optionally apply a function to generate parameters per thread
+			if (options.threadParamFactory) {
+				var map = options.threadParamFactory();
+				Object.keys(map).forEach(function(key) {
+					grunt.option(key, map[key]);
+				});
+			}
 			var cp = grunt.util.spawn({
 				grunt: true,
 				args: [task].concat(grunt.option.flags()),
