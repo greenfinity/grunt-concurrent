@@ -14,7 +14,7 @@ module.exports = function (grunt) {
 		var tasks = this.data.tasks || this.data;
 
 		// Warning if there are too many tasks to execute within the given limit
-		if (options.limit < tasks.length) {
+		if (options.limit < tasks.length && !options.silent) {
 			grunt.log.oklns(
 				'Warning: There are more tasks than your concurrency limit. After ' +
 				'this limit is reached no further tasks will be run until the ' +
